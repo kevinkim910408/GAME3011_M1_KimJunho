@@ -39,6 +39,7 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
+            Debug.Log("Lose HP 5");
             noteTiming.noteList.Remove(collision.gameObject);
             Destroy(collision.gameObject);
         }

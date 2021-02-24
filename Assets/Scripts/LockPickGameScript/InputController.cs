@@ -18,6 +18,11 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerInput();
+    }
+
+    public void PlayerInput()
+    {
         if (Input.GetKeyDown(s))
         {
             noteTiming.CheckTiming();

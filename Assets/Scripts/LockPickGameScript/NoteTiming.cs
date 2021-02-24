@@ -10,9 +10,21 @@ public class NoteTiming : MonoBehaviour
     [SerializeField] RectTransform[] noteTimingCheckRect = null;
     Vector2[] timingBoxes = null;
 
+    //components
+    NumberControlling numberControlling;
+
+    [SerializeField] int maxNum = 0;
+    [SerializeField] int currentCount = 0;
+    [SerializeField] int randomNum;
+
     // Start is called before the first frame update
     void Start()
     {
+        numberControlling = FindObjectOfType<NumberControlling>();
+
+        maxNum = numberControlling.GetMaxNum();
+        randomNum = Random.Range(0, maxNum);
+
         timingBoxes = new Vector2[noteTimingCheckRect.Length];
 
         for(int i = 0; i < noteTimingCheckRect.Length; ++i)
@@ -20,13 +32,13 @@ public class NoteTiming : MonoBehaviour
             timingBoxes[i].Set(centerTransfrom.localPosition.x - noteTimingCheckRect[i].rect.width / 2,
                 centerTransfrom.localPosition.x + noteTimingCheckRect[i].rect.width / 2);
         }
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        currentCount = numberControlling.GetCurrentNum();
     }
 
     public bool CheckTiming()
@@ -41,13 +53,34 @@ public class NoteTiming : MonoBehaviour
                 {
                     noteList[i].GetComponent<Note>().HideNote();
                     noteList.RemoveAt(i);
-                    Debug.Log("Hit" + x);
+
+                    // win condiiton
+                    if(randomNum == currentCount)
+                    {
+                        Debug.Log("win");
+                    }
+                    else if(randomNum -1 == currentCount || randomNum +1 == currentCount)
+                    {
+                        Debug.Log("Lose HP 1");
+                    }
+                    else if (randomNum - 2 == currentCount || randomNum +2 == currentCount)
+                    {
+                        Debug.Log("Lose HP 2");
+                    }
+                    else if (randomNum - 3 == currentCount || randomNum + 3 == currentCount)
+                    {
+                        Debug.Log("Lose HP 3");
+                    }
+                    else
+                    {
+                        Debug.Log("Lose HP 4");
+                    }
                     return true;
                 }
             }
         }
 
-        Debug.Log("Miss");
+        Debug.Log("Lose HP 5");
         return false;
     }
 }

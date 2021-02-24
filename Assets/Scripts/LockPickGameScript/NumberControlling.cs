@@ -31,9 +31,17 @@ public class NumberControlling : MonoBehaviour
             currentCount = maxCount;
     }
 
-    public void ChangingNumber()
+    public int GetMinNum()
     {
-
+        return minCount;
+    }
+    public int GetMaxNum()
+    {
+        return maxCount;
+    }
+    public int GetCurrentNum()
+    {
+        return currentCount;
     }
 
     public void PressUpBtn()
