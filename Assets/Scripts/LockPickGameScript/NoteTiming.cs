@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NoteTiming : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class NoteTiming : MonoBehaviour
 
     [SerializeField] int maxNum = 0;
     [SerializeField] int currentCount = 0;
-    [SerializeField] int randomNum;
+    [SerializeField] int randomNum = 0;
+    [SerializeField] int lockPickHP = 30;
+    [SerializeField] public int currentLockPickHP = 0;
+    [SerializeField] Text HP = null;
 
     // conditions - win/ lose
     [SerializeField] GameObject winPanel = null;
@@ -31,6 +35,7 @@ public class NoteTiming : MonoBehaviour
 
         maxNum = numberControlling.GetMaxNum();
         randomNum = Random.Range(0, maxNum);
+        currentLockPickHP = lockPickHP;
 
         timingBoxes = new Vector2[noteTimingCheckRect.Length];
 
@@ -46,6 +51,13 @@ public class NoteTiming : MonoBehaviour
     void Update()
     {
         currentCount = numberControlling.GetCurrentNum();
+        HP.text = currentLockPickHP.ToString();
+
+        if(currentLockPickHP <= 0)
+        {
+            currentLockPickHP = 0;
+            LoseCondition();
+        }
     }
 
     public bool CheckTiming()
@@ -69,18 +81,22 @@ public class NoteTiming : MonoBehaviour
                     }
                     else if(randomNum -1 == currentCount || randomNum +1 == currentCount)
                     {
+                        currentLockPickHP -= 1;
                         Debug.Log("Lose HP 1");
                     }
                     else if (randomNum - 2 == currentCount || randomNum +2 == currentCount)
                     {
+                        currentLockPickHP -= 2;
                         Debug.Log("Lose HP 2");
                     }
                     else if (randomNum - 3 == currentCount || randomNum + 3 == currentCount)
                     {
+                        currentLockPickHP -= 3;
                         Debug.Log("Lose HP 3");
                     }
                     else
                     {
+                        currentLockPickHP -= 4;
                         Debug.Log("Lose HP 4");
                     }
                     return true;
@@ -88,6 +104,7 @@ public class NoteTiming : MonoBehaviour
             }
         }
 
+        currentLockPickHP -= 5;
         Debug.Log("Lose HP 5");
         return false;
     }
@@ -101,5 +118,10 @@ public class NoteTiming : MonoBehaviour
     {
         losePanel.SetActive(true);
         Time.timeScale = 0.0f;
+    }
+
+    public int GetCurrentLife()
+    {
+        return currentLockPickHP;
     }
 }

@@ -10,12 +10,14 @@ public class NoteManager : MonoBehaviour
     [SerializeField] Transform noteGenerationPoint = null;
     [SerializeField] GameObject notePrefab = null;
 
+
     // components
     NoteTiming noteTiming;
 
+
     private void Start()
     {
-        noteTiming = GetComponent<NoteTiming>();
+        noteTiming = FindObjectOfType<NoteTiming>();
     }
 
     // Update is called once per frame
@@ -39,6 +41,7 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
+            noteTiming.currentLockPickHP -= 5;
             Debug.Log("Lose HP 5");
             noteTiming.noteList.Remove(collision.gameObject);
             Destroy(collision.gameObject);
