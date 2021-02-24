@@ -17,9 +17,16 @@ public class NoteTiming : MonoBehaviour
     [SerializeField] int currentCount = 0;
     [SerializeField] int randomNum;
 
+    // conditions - win/ lose
+    [SerializeField] GameObject winPanel = null;
+    [SerializeField] GameObject losePanel = null;
+
     // Start is called before the first frame update
     void Start()
     {
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+
         numberControlling = FindObjectOfType<NumberControlling>();
 
         maxNum = numberControlling.GetMaxNum();
@@ -57,6 +64,7 @@ public class NoteTiming : MonoBehaviour
                     // win condiiton
                     if(randomNum == currentCount)
                     {
+                        WInCondition();
                         Debug.Log("win");
                     }
                     else if(randomNum -1 == currentCount || randomNum +1 == currentCount)
@@ -82,5 +90,16 @@ public class NoteTiming : MonoBehaviour
 
         Debug.Log("Lose HP 5");
         return false;
+    }
+
+    public void WInCondition()
+    {
+        winPanel.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+    public void LoseCondition()
+    {
+        losePanel.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 }
