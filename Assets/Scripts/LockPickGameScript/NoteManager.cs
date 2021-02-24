@@ -4,23 +4,34 @@ using UnityEngine;
 
 public class NoteManager : MonoBehaviour
 {
-    public int i_bpm = 0;
-    double d_currentTime = 0.0d;
+    public int up_bpm = 0;
+    double d_currentTime_01 = 0.0d;
 
     [SerializeField] Transform noteGenerationPoint = null;
     [SerializeField] GameObject notePrefab = null;
 
+    // components
+    NoteTiming noteTiming;
+
+    private void Start()
+    {
+        noteTiming = GetComponent<NoteTiming>();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        d_currentTime += Time.deltaTime; 
+        d_currentTime_01 += Time.deltaTime;
 
-        if (d_currentTime >= 60.0d / i_bpm)
+
+        //first
+        if (d_currentTime_01 >= 60.0d / up_bpm)
         {
+
             GameObject go = Instantiate(notePrefab, noteGenerationPoint.position, Quaternion.identity);
             go.transform.SetParent(this.transform);
-            d_currentTime -= 60d / i_bpm;
-
+            noteTiming.noteList.Add(go);
+            d_currentTime_01 -= 60d / up_bpm;
         }
     }
 
@@ -28,6 +39,7 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
+            noteTiming.noteList.Remove(collision.gameObject);
             Destroy(collision.gameObject);
         }
     }
