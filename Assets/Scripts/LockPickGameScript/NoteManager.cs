@@ -41,7 +41,7 @@ public class NoteManager : MonoBehaviour
     {
         if (collision.CompareTag("Note"))
         {
-            noteTiming.currentLockPickHP -= 5;
+           // noteTiming.currentLockPickHP -= 5;
             Debug.Log("Lose HP 5");
             noteTiming.noteList.Remove(collision.gameObject);
             Destroy(collision.gameObject);

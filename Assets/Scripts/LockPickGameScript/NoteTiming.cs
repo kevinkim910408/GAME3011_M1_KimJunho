@@ -68,11 +68,6 @@ public class NoteTiming : MonoBehaviour
                 centerTransfrom.localPosition.x + noteTimingCheckRect[i].rect.width / 2);
         }
 
-       
-
-
-
-
     }
 
     // Update is called once per frame

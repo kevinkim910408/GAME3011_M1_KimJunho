@@ -2542,7 +2542,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Retry?
+  m_Text: QUIT
 --- !u!222 &521769418
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3771,7 +3771,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096ad6c7f704d364f84b5e86017b0af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartScene: GameScene
 --- !u!1 &850112039
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,7 +5451,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Retry?
+  m_Text: QUIT
 --- !u!222 &1242900568
 CanvasRenderer:
   m_ObjectHideFlags: 0
