@@ -17,9 +17,13 @@ public class NoteTiming : MonoBehaviour
     [SerializeField] int maxNum = 0;
     [SerializeField] int currentCount = 0;
     [SerializeField] int randomNum = 0;
-    [SerializeField] int lockPickHP = 30;
+    [SerializeField] public int lockPickHP = 0;
     [SerializeField] public int currentLockPickHP = 0;
     [SerializeField] Text HP = null;
+
+    [SerializeField] Text Timer = null;
+    [SerializeField] float currentTime = 0;
+    [SerializeField] float maxTime = 60;
 
     // conditions - win/ lose
     [SerializeField] GameObject winPanel = null;
@@ -28,6 +32,24 @@ public class NoteTiming : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        switch (GameValues.Difficulty)
+        {
+            case GameValues.Difficulties.Easy:
+                lockPickHP = 50;
+                currentLockPickHP = lockPickHP;
+                break;
+
+            case GameValues.Difficulties.Medium:
+                lockPickHP = 30;
+                currentLockPickHP = lockPickHP;
+                break;
+
+            case GameValues.Difficulties.Hard:
+                lockPickHP = 10;
+                currentLockPickHP = lockPickHP;
+                break;
+        }
+
         winPanel.SetActive(false);
         losePanel.SetActive(false);
 
@@ -35,7 +57,8 @@ public class NoteTiming : MonoBehaviour
 
         maxNum = numberControlling.GetMaxNum();
         randomNum = Random.Range(0, maxNum);
-        currentLockPickHP = lockPickHP;
+
+        currentTime = maxTime;
 
         timingBoxes = new Vector2[noteTimingCheckRect.Length];
 
@@ -45,6 +68,11 @@ public class NoteTiming : MonoBehaviour
                 centerTransfrom.localPosition.x + noteTimingCheckRect[i].rect.width / 2);
         }
 
+       
+
+
+
+
     }
 
     // Update is called once per frame
@@ -52,8 +80,19 @@ public class NoteTiming : MonoBehaviour
     {
         currentCount = numberControlling.GetCurrentNum();
         HP.text = currentLockPickHP.ToString();
+        Timer.text = currentTime.ToString("N0");
 
-        if(currentLockPickHP <= 0)
+        if(currentTime > 0f)
+        {
+            currentTime -= 1 * Time.deltaTime;
+        }
+        if(currentTime <= 0f)
+        {
+            currentTime = 0f;
+            LoseCondition();
+        }
+
+        if (currentLockPickHP <= 0f)
         {
             currentLockPickHP = 0;
             LoseCondition();
