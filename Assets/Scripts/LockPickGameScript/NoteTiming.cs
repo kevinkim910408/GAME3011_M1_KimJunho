@@ -20,6 +20,7 @@ public class NoteTiming : MonoBehaviour
     [SerializeField] public int lockPickHP = 0;
     [SerializeField] public int currentLockPickHP = 0;
     [SerializeField] Text HP = null;
+    [SerializeField] Text Difficulty_Text = null;
 
     [SerializeField] Text Timer = null;
     [SerializeField] float currentTime = 0;
@@ -29,29 +30,19 @@ public class NoteTiming : MonoBehaviour
     [SerializeField] GameObject winPanel = null;
     [SerializeField] GameObject losePanel = null;
 
+    // Difficulties
+    public enum DIFFICULTIES { NONE, EASY, NORMAL, HARD};
+    public DIFFICULTIES difficulty;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        switch (GameValues.Difficulty)
-        {
-            case GameValues.Difficulties.Easy:
-                lockPickHP = 50;
-                currentLockPickHP = lockPickHP;
-                break;
-
-            case GameValues.Difficulties.Medium:
-                lockPickHP = 30;
-                currentLockPickHP = lockPickHP;
-                break;
-
-            case GameValues.Difficulties.Hard:
-                lockPickHP = 10;
-                currentLockPickHP = lockPickHP;
-                break;
-        }
-
         winPanel.SetActive(false);
         losePanel.SetActive(false);
+
+        difficulty = DIFFICULTIES.NONE;
 
         numberControlling = FindObjectOfType<NumberControlling>();
 
@@ -59,6 +50,9 @@ public class NoteTiming : MonoBehaviour
         randomNum = Random.Range(0, maxNum);
 
         currentTime = maxTime;
+
+        //temp
+        currentLockPickHP = lockPickHP;
 
         timingBoxes = new Vector2[noteTimingCheckRect.Length];
 
@@ -77,7 +71,7 @@ public class NoteTiming : MonoBehaviour
         HP.text = currentLockPickHP.ToString();
         Timer.text = currentTime.ToString("N0");
 
-        if(currentTime > 0f)
+        if (currentTime > 0f)
         {
             currentTime -= 1 * Time.deltaTime;
         }
@@ -157,5 +151,35 @@ public class NoteTiming : MonoBehaviour
     public int GetCurrentLife()
     {
         return currentLockPickHP;
+    }
+
+    public void DifficultySetting(int value)
+    {
+        switch (value)
+        {
+            case 0:
+                difficulty = DIFFICULTIES.NONE;
+                lockPickHP = 0;
+                Difficulty_Text.text = difficulty.ToString();
+                break;
+
+            case 1:
+                difficulty = DIFFICULTIES.EASY;
+                lockPickHP = 100;
+                Difficulty_Text.text = difficulty.ToString();
+                break;
+
+            case 2:
+                difficulty = DIFFICULTIES.NORMAL;
+                lockPickHP = 50;
+                Difficulty_Text.text = difficulty.ToString();
+                break;
+
+            case 3:
+                difficulty = DIFFICULTIES.HARD;
+                lockPickHP = 30;
+                Difficulty_Text.text = difficulty.ToString();
+                break;
+        }
     }
 }
